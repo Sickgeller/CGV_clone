@@ -1,0 +1,146 @@
+[CGV 프로젝트 CSS 클래스 사용 가이드]
+
+common.css 파일에는 프로젝트 전반에서 사용할 수 있는 공통 스타일이 정의되어 있습니다.
+각 기능별로 사용할 수 있는 클래스 목록과 사용 예시입니다.
+
+1. 기본 레이아웃
+--------------------
+.container : 전체 콘텐츠를 감싸는 컨테이너
+사용예시:
+<div class="container">
+    <!-- 콘텐츠 내용 -->
+</div>
+
+2. 폼 관련 (로그인/회원가입)
+--------------------
+.form-container : 폼을 감싸는 컨테이너
+.form-group : 입력 필드 그룹
+.form-label : 라벨
+.form-input : 입력 필드
+
+사용예시:
+<div class="form-container">
+    <div class="form-group">
+        <label class="form-label">아이디</label>
+        <input type="text" class="form-input">
+    </div>
+</div>
+
+3. 버튼 스타일
+--------------------
+.btn : 기본 버튼
+.btn-primary : 주요 버튼 (빨간색)
+.btn-secondary : 보조 버튼 (회색)
+
+사용예시:
+<button class="btn btn-primary">확인</button>
+<button class="btn btn-secondary">취소</button>
+
+4. 영화 목록
+--------------------
+.movie-grid : 영화 목록 그리드
+.movie-item : 개별 영화 아이템
+.movie-poster : 영화 포스터 이미지
+.movie-info : 영화 정보 영역
+.movie-title : 영화 제목
+.movie-meta : 영화 부가 정보
+
+사용예시:
+<div class="movie-grid">
+    <div class="movie-item">
+        <img class="movie-poster" src="...">
+        <div class="movie-info">
+            <h3 class="movie-title">영화제목</h3>
+            <div class="movie-meta">평점: 9.5</div>
+        </div>
+    </div>
+</div>
+
+5. 예매 시스템
+--------------------
+.seat-grid : 좌석 배치 그리드
+.seat : 기본 좌석
+.seat.selected : 선택된 좌석
+.seat.occupied : 이미 예약된 좌석
+
+사용예시:
+<div class="seat-grid">
+    <div class="seat"></div>
+    <div class="seat selected"></div>
+    <div class="seat occupied"></div>
+</div>
+
+6. 테이블 스타일
+--------------------
+.table-container : 테이블 컨테이너
+.table : 기본 테이블
+
+사용예시:
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr><th>제목</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>내용</td></tr>
+        </tbody>
+    </table>
+</div>
+
+7. 모달창
+--------------------
+.modal : 모달 배경
+.modal-content : 모달 내용
+.modal-header : 모달 헤더
+.modal-title : 모달 제목
+.modal-close : 닫기 버튼
+
+사용예시:
+<div class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">제목</h2>
+            <button class="modal-close">&times;</button>
+        </div>
+    </div>
+</div>
+
+8. 알림 메시지
+--------------------
+.alert : 기본 알림
+.alert-success : 성공 메시지
+.alert-error : 에러 메시지
+
+사용예시:
+<div class="alert alert-success">성공했습니다!</div>
+<div class="alert alert-error">실패했습니다.</div>
+
+9. 페이지네이션
+--------------------
+.pagination : 페이지 네비게이션
+.pagination-item : 페이지 번호
+.pagination-item.active : 현재 페이지
+
+사용예시:
+<div class="pagination">
+    <a href="#" class="pagination-item">1</a>
+    <a href="#" class="pagination-item active">2</a>
+    <a href="#" class="pagination-item">3</a>
+</div>
+
+10. 로딩 표시
+--------------------
+.loading-spinner : 로딩 스피너
+
+사용예시:
+<div class="loading-spinner"></div>
+
+[CSS 파일 적용 방법]
+JSP 파일의 head 태그 안에 다음 코드를 추가하세요:
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+
+[반응형 디자인]
+- 모바일 (480px 이하)
+- 태블릿 (768px 이하)
+- 데스크톱 (1040px 이하)
+각 화면 크기에 맞게 자동으로 레이아웃이 조정됩니다.

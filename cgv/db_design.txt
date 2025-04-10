@@ -1,0 +1,252 @@
+[CGV 프로젝트 DB 설계]
+
+1. 회원 및 로그인 관련 (정현 담당)
+---------------------------------
+
+-- 회원 테이블
+CREATE TABLE MEMBER (
+    member_id NUMBER PRIMARY KEY,
+    user_id VARCHAR2(50) UNIQUE NOT NULL,
+    password VARCHAR2(100) NOT NULL,
+    name VARCHAR2(50) NOT NULL,
+    birth_date DATE NOT NULL,
+    gender CHAR(1) CHECK (gender IN ('M', 'F')),
+    phone VARCHAR2(20) NOT NULL,
+    email VARCHAR2(100),
+    address VARCHAR2(200),
+    join_date DATE DEFAULT SYSDATE,
+    member_grade VARCHAR2(20) DEFAULT 'BRONZE',
+    grade_point NUMBER DEFAULT 0,
+    marketing_agree CHAR(1) DEFAULT 'N',
+    status CHAR(1) DEFAULT 'Y' CHECK (status IN ('Y', 'N')),
+    last_login_date DATE
+);
+
+-- 1:1 문의 테이블
+CREATE TABLE INQUIRY (
+    inquiry_id NUMBER PRIMARY KEY,
+    member_id NUMBER,
+    title VARCHAR2(200) NOT NULL,
+    content CLOB NOT NULL,
+    inquiry_date DATE DEFAULT SYSDATE,
+    status VARCHAR2(20) DEFAULT 'PENDING',
+    answer CLOB,
+    answer_date DATE,
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
+);
+
+2. 영화/극장 관련 (희동 담당)
+---------------------------------
+
+-- 영화 테이블
+CREATE TABLE MOVIE (
+    movie_id NUMBER PRIMARY KEY,
+    title VARCHAR2(200) NOT NULL,
+    director VARCHAR2(100),
+    actors VARCHAR2(500),
+    genre VARCHAR2(100),
+    running_time NUMBER,
+    release_date DATE,
+    end_date DATE,
+    rating VARCHAR2(20),
+    synopsis CLOB,
+    poster_url VARCHAR2(500),
+    booking_rate NUMBER(5,2) DEFAULT 0,
+    average_rating NUMBER(3,1) DEFAULT 0,
+    total_audience NUMBER DEFAULT 0,
+    status VARCHAR2(20) DEFAULT 'UPCOMING'
+);
+
+-- 극장 테이블
+CREATE TABLE THEATER (
+    theater_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    region VARCHAR2(50) NOT NULL,
+    address VARCHAR2(200) NOT NULL,
+    phone VARCHAR2(20),
+    total_screens NUMBER,
+    introduction CLOB,
+    facilities VARCHAR2(500)
+);
+
+-- 상영관 테이블
+CREATE TABLE SCREEN (
+    screen_id NUMBER PRIMARY KEY,
+    theater_id NUMBER,
+    name VARCHAR2(50),
+    total_seats NUMBER,
+    screen_type VARCHAR2(20),
+    FOREIGN KEY (theater_id) REFERENCES THEATER(theater_id)
+);
+
+-- 상영 시간표 테이블
+CREATE TABLE SCHEDULE (
+    schedule_id NUMBER PRIMARY KEY,
+    movie_id NUMBER,
+    screen_id NUMBER,
+    showing_date DATE,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    price NUMBER,
+    remaining_seats NUMBER,
+    schedule_type VARCHAR2(20),
+    FOREIGN KEY (movie_id) REFERENCES MOVIE(movie_id),
+    FOREIGN KEY (screen_id) REFERENCES SCREEN(screen_id)
+);
+
+-- 극장 공지사항 테이블
+CREATE TABLE THEATER_NOTICE (
+    notice_id NUMBER PRIMARY KEY,
+    theater_id NUMBER,
+    title VARCHAR2(200) NOT NULL,
+    content CLOB,
+    post_date DATE DEFAULT SYSDATE,
+    FOREIGN KEY (theater_id) REFERENCES THEATER(theater_id)
+);
+
+3. 마이페이지/고객센터/이벤트 (예진 담당)
+---------------------------------
+
+-- 예매 테이블
+CREATE TABLE BOOKING (
+    booking_id NUMBER PRIMARY KEY,
+    member_id NUMBER,
+    schedule_id NUMBER,
+    booking_date DATE DEFAULT SYSDATE,
+    total_price NUMBER,
+    payment_method VARCHAR2(50),
+    status VARCHAR2(20) DEFAULT 'COMPLETED',
+    cancel_date DATE,
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    FOREIGN KEY (schedule_id) REFERENCES SCHEDULE(schedule_id)
+);
+
+-- 좌석 예매 테이블
+CREATE TABLE SEAT_BOOKING (
+    seat_booking_id NUMBER PRIMARY KEY,
+    booking_id NUMBER,
+    screen_id NUMBER,
+    seat_number VARCHAR2(10),
+    FOREIGN KEY (booking_id) REFERENCES BOOKING(booking_id),
+    FOREIGN KEY (screen_id) REFERENCES SCREEN(screen_id)
+);
+
+-- 포인트 이력 테이블
+CREATE TABLE POINT_HISTORY (
+    point_history_id NUMBER PRIMARY KEY,
+    member_id NUMBER,
+    booking_id NUMBER,
+    point_amount NUMBER,
+    point_type VARCHAR2(20),
+    description VARCHAR2(200),
+    transaction_date DATE DEFAULT SYSDATE,
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    FOREIGN KEY (booking_id) REFERENCES BOOKING(booking_id)
+);
+
+-- 영화 평점 테이블
+CREATE TABLE MOVIE_RATING (
+    rating_id NUMBER PRIMARY KEY,
+    movie_id NUMBER,
+    member_id NUMBER,
+    rating NUMBER(2,1),
+    comment VARCHAR2(500),
+    rating_date DATE DEFAULT SYSDATE,
+    FOREIGN KEY (movie_id) REFERENCES MOVIE(movie_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
+);
+
+-- 찜한 영화 테이블
+CREATE TABLE MOVIE_WISHLIST (
+    wishlist_id NUMBER PRIMARY KEY,
+    movie_id NUMBER,
+    member_id NUMBER,
+    add_date DATE DEFAULT SYSDATE,
+    FOREIGN KEY (movie_id) REFERENCES MOVIE(movie_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
+);
+
+-- 이벤트 테이블
+CREATE TABLE EVENT (
+    event_id NUMBER PRIMARY KEY,
+    title VARCHAR2(200) NOT NULL,
+    content CLOB,
+    start_date DATE,
+    end_date DATE,
+    event_type VARCHAR2(50),
+    image_url VARCHAR2(500)
+);
+
+-- 쿠폰 테이블
+CREATE TABLE COUPON (
+    coupon_id NUMBER PRIMARY KEY,
+    member_id NUMBER,
+    event_id NUMBER,
+    coupon_code VARCHAR2(50) UNIQUE,
+    discount_amount NUMBER,
+    issue_date DATE DEFAULT SYSDATE,
+    expire_date DATE,
+    used_date DATE,
+    status VARCHAR2(20) DEFAULT 'ACTIVE',
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    FOREIGN KEY (event_id) REFERENCES EVENT(event_id)
+);
+
+-- FAQ 테이블
+CREATE TABLE FAQ (
+    faq_id NUMBER PRIMARY KEY,
+    category VARCHAR2(50),
+    question VARCHAR2(500),
+    answer CLOB,
+    order_num NUMBER
+);
+
+-- 공지사항 테이블
+CREATE TABLE NOTICE (
+    notice_id NUMBER PRIMARY KEY,
+    title VARCHAR2(200) NOT NULL,
+    content CLOB,
+    post_date DATE DEFAULT SYSDATE,
+    important CHAR(1) DEFAULT 'N',
+    view_count NUMBER DEFAULT 0
+);
+
+-- 시퀀스 생성
+CREATE SEQUENCE member_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE movie_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE theater_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE screen_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE schedule_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE booking_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE event_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE notice_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE inquiry_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE point_history_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE rating_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE coupon_seq START WITH 1 INCREMENT BY 1;
+
+[테이블 관계 설명]
+
+1. 회원(MEMBER) 테이블을 중심으로:
+- 1:N → 문의(INQUIRY)
+- 1:N → 예매(BOOKING)
+- 1:N → 포인트 이력(POINT_HISTORY)
+- 1:N → 영화 평점(MOVIE_RATING)
+- 1:N → 찜한 영화(MOVIE_WISHLIST)
+- 1:N → 쿠폰(COUPON)
+
+2. 영화(MOVIE) 테이블을 중심으로:
+- 1:N → 상영 시간표(SCHEDULE)
+- 1:N → 영화 평점(MOVIE_RATING)
+- 1:N → 찜한 영화(MOVIE_WISHLIST)
+
+3. 극장(THEATER) 테이블을 중심으로:
+- 1:N → 상영관(SCREEN)
+- 1:N → 극장 공지사항(THEATER_NOTICE)
+
+4. 예매(BOOKING) 테이블을 중심으로:
+- 1:N → 좌석 예매(SEAT_BOOKING)
+- 1:N → 포인트 이력(POINT_HISTORY)
+
+5. 이벤트(EVENT) 테이블을 중심으로:
+- 1:N → 쿠폰(COUPON)
