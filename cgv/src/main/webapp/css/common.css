@@ -1,4 +1,4 @@
-/* Reset and Base styles */
+/* Reset and Base styles 사용X*/
 * {
     margin: 0;
     padding: 0;
@@ -62,7 +62,26 @@ ul, ol {
     border-color: #fb4357;
     outline: none;
 }
-
+/* 공통 메시지
+-------------------------*/ 
+.result-display{
+	width:400px;
+	height:200px;
+	margin:50px auto;
+	border:1px solid #000;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+.content-main{
+	padding:10px 20px;
+}
+.align-center{
+	text-align: center;
+}
+.align-right{
+	text-align: right;
+}	
 /* Button Styles */
 .btn {
     display: inline-block;

@@ -22,8 +22,8 @@
 							alt="CGV" /></a>
 					</h1>
 					<ul class="memberInfo_wrap">
-						<li><a href="${pageContext.request.contextPath}/user/login">로그인</a></li>
-						<li><a href="${pageContext.request.contextPath}/user/join">회원가입</a></li>
+						<li><a href="${pageContext.request.contextPath}/member/loginForm.do">로그인</a></li>
+						<li><a href="${pageContext.request.contextPath}/member/registerForm.do">회원가입</a></li>
 						<li><a href="${pageContext.request.contextPath}/user/mycgv">MY
 								CGV</a></li>
 						<li><a href="${pageContext.request.contextPath}/support">고객센터</a></li>
