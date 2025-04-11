@@ -31,10 +31,10 @@
                                 <li><a href="${pageContext.request.contextPath}/member/registerForm.do">회원가입</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
+                                <li><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></li>
                             </c:otherwise>
                         </c:choose>
-                        <li><a href="${pageContext.request.contextPath}/user/mycgv">MY CGV</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/myPage.do">MY CGV</a></li>
                         <li><a href="${pageContext.request.contextPath}/support">고객센터</a></li>
                     </ul>
                 </div>

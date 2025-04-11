@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,33 +14,7 @@
 <body>
 	<div id="cgvwrap">
 		<!-- 헤더 영역 -->
-		<header class="header">
-			<div class="header_content">
-				<div class="contents">
-					<h1>
-						<a href="${pageContext.request.contextPath}/"><img
-							src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png"
-							alt="CGV" /></a>
-					</h1>
-					<ul class="memberInfo_wrap">
-						<li><a href="${pageContext.request.contextPath}/member/loginForm.do">로그인</a></li>
-						<li><a href="${pageContext.request.contextPath}/member/registerForm.do">회원가입</a></li>
-						<li><a href="${pageContext.request.contextPath}/user/mycgv">MY
-								CGV</a></li>
-						<li><a href="${pageContext.request.contextPath}/support">고객센터</a></li>
-					</ul>
-				</div>
-			</div>
-			<!-- 메인 네비게이션 -->
-			<nav class="nav_menu">
-				<ul>
-					<li><a href="${pageContext.request.contextPath}/movies">영화</a></li>
-					<li><a href="${pageContext.request.contextPath}/theaters">극장</a></li>
-					<li><a href="${pageContext.request.contextPath}/ticket">예매</a></li>
-					<li><a href="${pageContext.request.contextPath}/event">이벤트</a></li>
-				</ul>
-			</nav>
-		</header>
+		<%@ include file="../common/header.jsp" %>
 
 		<!-- 메인 컨텐츠 영역 -->
 		<div id="container">
@@ -69,21 +44,11 @@
 		</div>
 
 		<!-- 푸터 영역 -->
+	<%@ include file="../common/footer.jsp" %>
+	</div>
 
 
 		
-	</div>
-	<footer class="footer">
-		<div class="footer_content">
-			<div class="footer_info">
-				<p>&copy; CJ CGV. All Rights Reserved</p>
-			</div>
-		</div>
-		<!-- 상단으로 이동 버튼 -->
-		<div class="btn_gotoTop">
-			<a href="${pageContext.request.contextPath}#" title="최상단으로 이동">↑</a>
-		</div>
-	</footer>
 	<script>
         $(document).ready(function() {
             // 스크롤 이벤트 처리

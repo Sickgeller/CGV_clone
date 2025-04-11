@@ -6,10 +6,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.controller.Action;
 import java.io.IOException;
 
-public class RegisterFormAction implements Action {
+public class FindPwFormAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        return "member/registerForm.jsp";
+        return "member/findPwForm.jsp";
     }
 }
